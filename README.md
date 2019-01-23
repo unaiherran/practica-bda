@@ -21,7 +21,8 @@ https://colab.research.google.com/drive/1BlrmltxXA_TA4kw_t49jV74HExClrGjl#scroll
 
 * Para adaptar el registo historico se ha escrito un script en local. Como sólo se va a ejecutar una vez,
 se pueden cargar los archivos en el directorio `input` y ejecutar el script
- `python3 scrapper_historico.py $(ls input/)` que dejará todos los archivos adaptados en `output`
+ `python3 scrapper_historico.py $(ls input/)` que dejará todos los archivos adaptados al formato
+  elegido en `output`. Después se pueden subira `gs://input_contaminacion`
  
 
 
