@@ -19,7 +19,10 @@ Para obtener los datos se divide la tarea en dos:
   El código sería similar a este:
 https://colab.research.google.com/drive/1BlrmltxXA_TA4kw_t49jV74HExClrGjl#scrollTo=qIEPiWiQI0qI
 
-* Para adaptar el 
+* Para adaptar el registo historico se ha escrito un script en local. Como sólo se va a ejecutar una vez,
+se pueden cargar los archivos en el directorio `input` y ejecutar el script
+ `python3 scrapper_historico.py $(ls input/)` que dejará todos los archivos adaptados en `output`
+ 
 
 
 ## Hadoop
