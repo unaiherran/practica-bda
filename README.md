@@ -11,3 +11,12 @@ Así pues, planteo la siguiente idea
 
 
 ## Arquitectura
+
+## Scrapper
+
+## Hadoop
+
+## InfluxBD
+hola
+# Grafana
+que tal
