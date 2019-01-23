@@ -13,6 +13,13 @@ Así pues, planteo la siguiente idea
 ## Arquitectura
 
 ## Scrapper
+Para obtener los datos se divide la tarea en dos:
+* Por un lado hay que obtener los datos diarios. Según la documentación del API, los datos se actualizan entre el minuto 20 y 30 de cada hora, con lo que bastaría realizar un CRON JOB (40 * * * *) para que cada hora obtenga los datos
+
+El código sería similar a este:
+https://colab.research.google.com/drive/1BlrmltxXA_TA4kw_t49jV74HExClrGjl#scrollTo=qIEPiWiQI0qI
+
+
 
 ## Hadoop
 
