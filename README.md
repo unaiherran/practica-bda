@@ -2,15 +2,18 @@
 
 El Ayuntamiento de Madrid proporciona datos de las estaciones de medida de la calidad del aire, pero en un formato poco amigable para realizar estudios de los mismos. Los datos no estan individualizados, sino que se sirven en medidas agregadas por dias. Es decir, no es posible obtener un dato concreto de medida de una estación a una hora, sino que hay que encontrar el archivo de ese mes, ver, las medidas que se realizaron ese día, aislarlo por horas , comprobar las medidas que se hicieron ese día y finalmente ver la medida
 
-Así pues, planteo la siguiente idea
+Así pues, planteo la siguiente idea:
 
-*  Obtener los datos de calidad del aire en Madrid
-*  Formatear los datos para alimentar un InfluxDB
+* Obtener los datos de calidad del aire en Madrid
+* Formatear los datos para alimentar un InfluxDB
 * Presentar esos datos en un Grafana
-* Por otro lado, alimentar esos datos a un Hadoop para poder realizar estudios de MapReduce para sacar medias por hora de las distintas medidas
+* Por otro lado, alimentar esos datos a un Hadoop para poder realizar estudios de MapReduce para sacar medias por hora de las distintas medidas en distintas estaciones
 
 
 ## Arquitectura
+Se establece la siguiente arquitectura:
+
+https://docs.google.com/drawings/d/1tZDgS_LWooGMAurDQJDAo688y25-9PSn4WJjAsEnK_I/edit?usp=sharing
 
 ## Scrapper
 Para obtener los datos se divide la tarea en dos:
