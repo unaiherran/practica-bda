@@ -50,3 +50,19 @@ Usamos el mismo planteamiento para Grafana. Lo ideal sería montarlo en GCP, per
 
 Una vez montado lo configuramos de la siguiente manera:
 
+*  Ir a `localhots:3000`
+*  User: admin Password: admin
+*  Add Data source
+*  Seleccionar Influx
+*  Configurar:
+
+   -  Name: Calidad_aire
+   -  Access: Browser
+   -  URL: `localhost:8080`
+   -  DB: calidad_aire
+   -  U/P: root/root
+   
+* Con la conexión creada, añadir un dashboard nuevo e ir añadiendo paneles (Graph) y editando los mismos para obtener un panel similar al mostrado en `panel de mandos Grafana.png`
+
+
+Una vez el panel está configurado, podemos importar nuevos datos a InfluxDB y vemos como se van actualizando los datos mostrados en los paneles. 
