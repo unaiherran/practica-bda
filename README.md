@@ -34,8 +34,12 @@ se pueden cargar los archivos en el directorio `input` y ejecutar el script
 ## InfluxBD
 La arquitectura nos indica que la solución correcta sería montar una VM en Google Cloud Platform, pero para ahorrar costes enm la realización de la practuca, he optado por hacer una simulación en local con un docker container.
 Para ejecutarlo, basta con tener docker instalado y ejecutar:
+
 `docker run -d -p 8086:8086 -v $PWD:/var/lib/influxdb influxdb`
-Esto montaría un InfluxDB que recibiría los datos desde los archivos generados en el scrapper (1 y 2). Debido a que la ingesta de datos de influxDB es a través de una API JSON he desarrolado el script: `preparacion_influxDB.py` que coge cada linea del csv generado con anterioridad y lo alimenta a InfluxDB. Para ejecutarlo en modo de prueba bastaría con dejar en \output los archivos csv que quieres almacenar en el influxDB y ejecutar el siguiente script `python3 preparacion_influxDB.py $(ls output/)`  (Tambien puedes ejecutar `python3 preparacion_influxDB.py file` para archivos individuales)
+
+Esto montaría un InfluxDB que recibiría los datos desde los archivos generados en el scrapper (1 y 2). Debido a que la ingesta de datos de influxDB es a través de una API JSON he desarrolado el script: `preparacion_influxDB.py` que coge cada linea del csv generado con anterioridad y lo alimenta a InfluxDB. 
+
+Para ejecutarlo en modo de prueba bastaría con dejar en `\output` los archivos csv que quieres almacenar en el influxDB y ejecutar el siguiente script `python3 preparacion_influxDB.py $(ls output/)`  (Tambien puedes ejecutar `python3 preparacion_influxDB.py file` para archivos individuales)
 
 # Grafana
 que tal
