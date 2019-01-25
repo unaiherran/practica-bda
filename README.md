@@ -8,7 +8,7 @@ Así pues, planteo la siguiente idea:
 * Formatear los datos para alimentar un InfluxDB
 * Presentar esos datos en un Grafana
 * Por otro lado, alimentar esos datos a un Hadoop para poder realizar estudios de MapReduce para sacar medias por hora de las distintas medidas en distintas estaciones
-
+* Meter los datos del bucket en una base de datos (p.ej. HIVE)
 
 ## Arquitectura
 Se establece la siguiente arquitectura:
@@ -38,7 +38,7 @@ La explicación de montado esta en:
 https://colab.research.google.com/drive/1vJL-JOtqUpfI1OxszJ5U6z3iuI5-HOMG
 
 ## InfluxBD
-La arquitectura nos indica que la solución correcta sería montar una VM en Google Cloud Platform, pero para ahorrar costes enm la realización de la practuca, he optado por hacer una simulación en local con un docker container.
+La arquitectura nos indica que la solución correcta sería montar una VM en Google Cloud Platform, pero para ahorrar costes en la realización de la practuca, he optado por hacer una simulación en local con un docker container.
 Para ejecutarlo, basta con tener docker instalado y ejecutar:
 
 `docker run -d -p 8086:8086 -v $PWD:/var/lib/influxdb influxdb`
@@ -49,7 +49,7 @@ Debido a que la ingesta de datos de influxDB es a través de una API JSON he des
 
 Para ejecutarlo en modo de prueba bastaría con dejar en `\output` los archivos csv que quieres almacenar en el influxDB y ejecutar el siguiente script `python3 preparacion_influxDB.py $(ls output/)`  (Tambien puedes ejecutar `python3 preparacion_influxDB.py file` para archivos individuales)
 
-# Grafana
+## Grafana
 Usamos el mismo planteamiento para Grafana. Lo ideal sería montarlo en GCP, pero lo realizamos en local con un container.
 
 `docker run -d --name=grafana -p 3000:3000 grafana/grafana`
@@ -72,3 +72,40 @@ Una vez montado lo configuramos de la siguiente manera:
 
 
 Una vez el panel está configurado, podemos importar nuevos datos a InfluxDB y vemos como se van actualizando los datos mostrados en los paneles. 
+
+
+## Hive
+Además de guardar los datos extraidos en un bucket en formato csv, se decide almacenar los datos en una base de datos HIVE, en una única tabla con los campos 'FECHA_HORA,ESTACION,MAGNITUD,MEDIDA\n'
+
+Se usa el ejemplo del docker suminsitrado en clase
+
+```
+# componer el docker
+docker-compose up -d --build
+
+# copiar el archivo medidas.csv al interior del docker
+docker cp medidas.csv a7ad3a292e3b:/opt/medidas.csv
+
+# entrar en el docker y beeline
+docker-compose exec hive-server bash
+/opt/hive/bin/beeline -u jdbc:hive2://localhost:10000
+
+# ejecutar los siguientes comandos dentro de beehive
+CREATE DATABASE calidad_aire;
+USE calidad_aire;
+
+# Se crea una tabla temporal para la importacion, para ajustar el formato de los datetime ISO 8601 a TIMESTAMP
+
+CREATE TABLE lecturas_tmp (fecha_hora STRING, estacion INT, magnitud STRING, medida FLOAT) ROW FORMAT DELIMITED FIELDS TERMINATED BY ",";
+LOAD DATA LOCAL INPATH '/opt/medidas.csv' INTO TABLE lecturas_tmp;
+
+CREATE TABLE lecturas (fecha_hora TIMESTAMP, estacion INT, magnitud STRING, medida FLOAT);
+INSERT INTO lecturas SELECT from_unixtime(unix_timestamp(regexp_replace(fecha_hora, 'T',' ')), 'yyyy-MM-dd HH:mm:ss') fecha_hora, estacion, magnitud, medida  from lecturas_tmp;
+
+DROP TABLE lecturas_tmp;
+```
+Una vez realizado esto, se pueden realizar consultas SQL normales sobre la base de datos HIVE:
+```
+SELECT * FROM lecturas;
+SELECT * FROM lecturas where magnitud="NOX";
+```
