@@ -70,32 +70,38 @@ Una vez montado lo configuramos de la siguiente manera:
    
 * Con la conexión creada, añadir un dashboard nuevo e ir añadiendo paneles (Graph) y editando los mismos para obtener un panel similar al mostrado en `panel de mandos Grafana.png`
 
-
 Una vez el panel está configurado, podemos importar nuevos datos a InfluxDB y vemos como se van actualizando los datos mostrados en los paneles. 
 
 
 ## Hive
-Además de guardar los datos extraidos en un bucket en formato csv, se decide almacenar los datos en una base de datos HIVE, en una única tabla con los campos 'FECHA_HORA,ESTACION,MAGNITUD,MEDIDA\n'
+Además de guardar los datos extraidos en un bucket en formato csv, se decide almacenar los datos en una base de datos HIVE, en una única tabla con los campos `FECHA_HORA,ESTACION,MAGNITUD,MEDIDA`
 
-Se usa el ejemplo del docker suminsitrado en clase
+Se usa el ejemplo del docker suminsitrado en clase:
+
+
+Componer el docker
+```
+docker-compose up -d --build
+```
+Copiar el archivo medidas.csv al interior del docker
 
 ```
-# componer el docker
-docker-compose up -d --build
-
-# copiar el archivo medidas.csv al interior del docker
 docker cp medidas.csv a7ad3a292e3b:/opt/medidas.csv
+```
 
-# entrar en el docker y beeline
+Entrar en el docker y beeline
+```
 docker-compose exec hive-server bash
 /opt/hive/bin/beeline -u jdbc:hive2://localhost:10000
+```
 
-# ejecutar los siguientes comandos dentro de beehive
+ejecutar los siguientes comandos dentro de beehive
+```
 CREATE DATABASE calidad_aire;
 USE calidad_aire;
-
-# Se crea una tabla temporal para la importacion, para ajustar el formato de los datetime ISO 8601 a TIMESTAMP
-
+```
+Se crea una tabla temporal para la importacion, para ajustar el formato de los datetime ISO 8601 a TIMESTAMP
+```
 CREATE TABLE lecturas_tmp (fecha_hora STRING, estacion INT, magnitud STRING, medida FLOAT) ROW FORMAT DELIMITED FIELDS TERMINATED BY ",";
 LOAD DATA LOCAL INPATH '/opt/medidas.csv' INTO TABLE lecturas_tmp;
 
