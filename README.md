@@ -102,11 +102,13 @@ USE calidad_aire;
 ```
 Se crea una tabla temporal para la importacion, para ajustar el formato de los datetime ISO 8601 a TIMESTAMP
 ```
-CREATE TABLE lecturas_tmp (fecha_hora STRING, estacion INT, magnitud STRING, medida FLOAT) ROW FORMAT DELIMITED FIELDS TERMINATED BY ",";
+CREATE TABLE lecturas_tmp (fecha_hora STRING, estacion INT, magnitud STRING, medida FLOAT) ROW 
+    FORMAT DELIMITED FIELDS TERMINATED BY ",";
 LOAD DATA LOCAL INPATH '/opt/medidas.csv' INTO TABLE lecturas_tmp;
 
 CREATE TABLE lecturas (fecha_hora TIMESTAMP, estacion INT, magnitud STRING, medida FLOAT);
-INSERT INTO lecturas SELECT from_unixtime(unix_timestamp(regexp_replace(fecha_hora, 'T',' ')), 'yyyy-MM-dd HH:mm:ss') fecha_hora, estacion, magnitud, medida  from lecturas_tmp;
+INSERT INTO lecturas SELECT from_unixtime(unix_timestamp(regexp_replace(fecha_hora, 'T',' ')), 
+    'yyyy-MM-dd HH:mm:ss') fecha_hora, estacion, magnitud, medida  from lecturas_tmp;
 
 DROP TABLE lecturas_tmp;
 ```
