@@ -31,6 +31,12 @@ se pueden cargar los archivos en el directorio `input` y ejecutar el script
 
 ## Hadoop
 
+Se monta un Hadoop en DataProc. Para las pruebas, se monta un cluster pequeño, un master y dos slaves, pero para un 
+entorno real sería recomendable aumentar el número de nodos para que los trabajos no se eternicen.
+
+La explicación de montado esta en:
+https://colab.research.google.com/drive/1vJL-JOtqUpfI1OxszJ5U6z3iuI5-HOMG
+
 ## InfluxBD
 La arquitectura nos indica que la solución correcta sería montar una VM en Google Cloud Platform, pero para ahorrar costes enm la realización de la practuca, he optado por hacer una simulación en local con un docker container.
 Para ejecutarlo, basta con tener docker instalado y ejecutar:
