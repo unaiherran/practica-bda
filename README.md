@@ -117,4 +117,4 @@ SELECT * FROM lecturas;
 SELECT * FROM lecturas where magnitud="NOX";
 ```
 
-Otra opción a investigar sería usar el *Datastore* o el *BigTable* de GCP, ya que tiene herramientas que pueden ayudarnos en el futuro, pero que al tratarse de herramientas propietarias pueden dar un problema en el futuro.
+Otra opción a investigar sería, en lugar de usar HIVE, usar el **Datastore** o el **BigTable** de GCP, ya que tiene herramientas que pueden ayudarnos según que queramos desarrollar más adelante, pero que al tratarse de herramientas propietarias pueden dar un problema en el futuro. Según aparezcan necesidades se decidirá una u otra cosa.
