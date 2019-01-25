@@ -74,10 +74,9 @@ Una vez el panel está configurado, podemos importar nuevos datos a InfluxDB y v
 
 
 ## Hive
-Además de guardar los datos extraidos en un bucket en formato csv, se decide almacenar los datos en una base de datos HIVE, en una única tabla con los campos `FECHA_HORA,ESTACION,MAGNITUD,MEDIDA`
+Además de guardar los datos extraidos en un bucket en formato csv, se decide almacenar los datos en una base de datos HIVE, en una única tabla 'lecturas' con los campos `FECHA_HORA,ESTACION,MAGNITUD,MEDIDA`
 
-Se usa el ejemplo del docker suminsitrado en clase:
-
+Dicho Hive, se deberia integrar en GCP, pero, de nuevo, para ahorrar costes, se usa el ejemplo del docker suministrado en clase:
 
 Componer el docker
 ```
@@ -117,3 +116,5 @@ Una vez realizado esto, se pueden realizar consultas SQL normales sobre la base 
 SELECT * FROM lecturas;
 SELECT * FROM lecturas where magnitud="NOX";
 ```
+
+Otra opción a investigar sería usar el *Datastore* o el *BigTable* de GCP, ya que tiene herramientas que pueden ayudarnos en el futuro, pero que al tratarse de herramientas propietarias pueden dar un problema en el futuro.
